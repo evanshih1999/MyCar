@@ -21,7 +21,7 @@ function makevcode(length) {
 const router = express.Router()
 
 router.post('/user/set_verify_code', async (req, res) => {
-    const email = req.query.mail
+    const email = req.body.mail
     const vcode = makevcode(6)
     
     if (await Vcode.findOne({ email: email })) {
@@ -62,10 +62,10 @@ router.post('/user/set_verify_code', async (req, res) => {
 })
 
 router.post('/user/register', async (req, res) => {
-    const email = req.query.mail
-    const vcode = req.query.vcode
-    const username = req.query.username
-    const password = await bcrypt.hash(req.query.password,10)
+    const email = req.body.mail
+    const vcode = req.body.vcode
+    const username = req.body.username
+    const password = await bcrypt.hash(req.body.password,10)
     if (!vcode) {
         res.status(400).send({ msg: "Didn't click verify button!" })
         return
@@ -92,8 +92,8 @@ router.post('/user/register', async (req, res) => {
 })
 
 router.post('/user/login', async (req, res) => {
-    const username = req.query.username
-    const password = req.query.password
+    const username = req.body.username
+    const password = req.body.password
     const user = await User.findOne({ username: username })
     if (user) {
         if (await bcrypt.compare(password, user.password)) {
