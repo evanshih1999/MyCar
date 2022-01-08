@@ -105,4 +105,11 @@ router.post('/user/login', async (req, res) => {
     res.status(400).send({ msg: "Username doesn't exist" })
 })
 
+router.post('/car/control', (req, res) => {
+    const car = req.body.car
+    const command = req.body.command
+    console.log(car+' '+command)
+    res.json({ msg: command })
+})
+
 export default router

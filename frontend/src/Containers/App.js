@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import Menu from './Menu'
 import SignIn from './SignIn'
 import Register from './Register'
+import Car from './Car'
+import Door from './Door'
 
 const Wrapper = styled.div`
     display: flex;
@@ -11,8 +13,9 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
-    width: 500px;
+    width: 100%;
     margin: auto;
+    background: #F5E1FD;
 `;
 
 const LOCALSTORAGE_KEY1 = "save-me"
@@ -26,6 +29,8 @@ function App() {
     const [me, setMe] = useState(savedMe||'')
     const [pwd, setPwd] = useState(savedPwd||'')
     const [remember, setRemember] = useState(false)
+    const [car, setCar] = useState('')
+    const [door, setDoor] = useState('')
     
     const displayStatus = (payload) => {
         if (payload.msg) {
@@ -58,29 +63,41 @@ function App() {
     return (
         <Wrapper>
             {signedIn?
-                <Menu
-                    me = {me}
-                    setSignedIn = {setSignedIn}
+                car?
+                <Car
+                    car = {car}
+                    setCar = {setCar}
                 />:
-                registered?
-                    <SignIn
-                        me = {me}
-                        setMe = {setMe}
-                        pwd = {pwd}
-                        setPwd = {setPwd}
-                        setRemember = {setRemember}
-                        setSignedIn = {setSignedIn}
-                        setRegistered = {setRegistered}
-                        displayStatus = {displayStatus}
+                    door?
+                    <Door
+                        door = {door}
+                        setDoor = {setDoor}
                     />:
-                    <Register
-                        setMe = {setMe}
-                        setPwd = {setPwd}
-                        setRemember = {setRemember}
+                    <Menu
+                        me = {me}
                         setSignedIn = {setSignedIn}
-                        setRegistered = {setRegistered}
-                        displayStatus = {displayStatus}
-                    />
+                        setCar = {setCar}
+                        setDoor = {setDoor}
+                    />:
+                    registered?
+                        <SignIn
+                            me = {me}
+                            setMe = {setMe}
+                            pwd = {pwd}
+                            setPwd = {setPwd}
+                            setRemember = {setRemember}
+                            setSignedIn = {setSignedIn}
+                            setRegistered = {setRegistered}
+                            displayStatus = {displayStatus}
+                        />:
+                        <Register
+                            setMe = {setMe}
+                            setPwd = {setPwd}
+                            setRemember = {setRemember}
+                            setSignedIn = {setSignedIn}
+                            setRegistered = {setRegistered}
+                            displayStatus = {displayStatus}
+                        />
             }
         </Wrapper>
     )
