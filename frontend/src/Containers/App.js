@@ -47,8 +47,11 @@ function App() {
 
     useEffect(() => {
         if (remember) {
-          localStorage.setItem(LOCALSTORAGE_KEY1, me)
-          localStorage.setItem(LOCALSTORAGE_KEY2, pwd)
+            localStorage.setItem(LOCALSTORAGE_KEY1, me)
+            localStorage.setItem(LOCALSTORAGE_KEY2, pwd)
+        } else {
+            localStorage.setItem(LOCALSTORAGE_KEY1, '')
+            localStorage.setItem(LOCALSTORAGE_KEY2, '')
         }
       }, [remember, me, pwd])
 
@@ -58,7 +61,6 @@ function App() {
                 <Menu
                     me = {me}
                     setSignedIn = {setSignedIn}
-                    setRegistered = {setRegistered}
                 />:
                 registered?
                     <SignIn

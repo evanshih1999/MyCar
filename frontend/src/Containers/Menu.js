@@ -1,7 +1,7 @@
 import Title from "../Components/Title"
 import { Button } from 'antd'
 
-const Menu = ({me, setSignedIn, setRegistered}) => {
+const Menu = ({me, setSignedIn}) => {
     return (
         <>
             <Title>
