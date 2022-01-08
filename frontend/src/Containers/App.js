@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { message } from 'antd'
 import styled from 'styled-components'
 import Menu from './Menu'
@@ -15,10 +15,17 @@ const Wrapper = styled.div`
     margin: auto;
 `;
 
+const LOCALSTORAGE_KEY1 = "save-me"
+const LOCALSTORAGE_KEY2 = "save-pwd"
+
 function App() {
+    const savedMe = localStorage.getItem(LOCALSTORAGE_KEY1)
+    const savedPwd = localStorage.getItem(LOCALSTORAGE_KEY2)
     const [signedIn, setSignedIn] = useState(false)
     const [registered, setRegistered] = useState(true)
-    const [me, setMe] = useState('')
+    const [me, setMe] = useState(savedMe||'')
+    const [pwd, setPwd] = useState(savedPwd||'')
+    const [remember, setRemember] = useState(false)
     
     const displayStatus = (payload) => {
         if (payload.msg) {
@@ -38,19 +45,40 @@ function App() {
                     break
     }}}
 
+    useEffect(() => {
+        if (remember) {
+          localStorage.setItem(LOCALSTORAGE_KEY1, me)
+          localStorage.setItem(LOCALSTORAGE_KEY2, pwd)
+        }
+      }, [remember, me, pwd])
+
     return (
         <Wrapper>
             {signedIn?
                 <Menu
                     me = {me}
+                    setSignedIn = {setSignedIn}
+                    setRegistered = {setRegistered}
                 />:
                 registered?
                     <SignIn
+                        me = {me}
                         setMe = {setMe}
+                        pwd = {pwd}
+                        setPwd = {setPwd}
+                        setRemember = {setRemember}
                         setSignedIn = {setSignedIn}
+                        setRegistered = {setRegistered}
                         displayStatus = {displayStatus}
                     />:
-                    <Register/>
+                    <Register
+                        setMe = {setMe}
+                        setPwd = {setPwd}
+                        setRemember = {setRemember}
+                        setSignedIn = {setSignedIn}
+                        setRegistered = {setRegistered}
+                        displayStatus = {displayStatus}
+                    />
             }
         </Wrapper>
     )

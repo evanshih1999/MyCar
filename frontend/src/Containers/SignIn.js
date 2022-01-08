@@ -2,11 +2,12 @@ import { Form, Input, Button, Checkbox } from 'antd'
 import Title from "../Components/Title"
 import axios from '../api'
 
-const SignIn = ({setMe, setSignedIn, displayStatus}) => {
+const SignIn = ({me, setMe, pwd, setPwd, setRemember, setSignedIn, setRegistered, displayStatus}) => {
     const onFinish = async (values) => {
         console.log('Success:', values)
         const username = values.username
         const password = values.password
+        const remember = values.remember
         try {
             const {
                 data: { msg },
@@ -14,7 +15,9 @@ const SignIn = ({setMe, setSignedIn, displayStatus}) => {
                 username,
                 password
             });
-            setMe(values.username)
+            setMe(username)
+            setPwd(password)
+            setRemember(remember)
             setSignedIn(true)
             displayStatus({
                 type: 'success',
@@ -47,6 +50,8 @@ const SignIn = ({setMe, setSignedIn, displayStatus}) => {
                     span: 16,
                 }}
                 initialValues={{
+                    username: me,
+                    password: pwd,
                     remember: true,
                 }}
                 onFinish={onFinish}
@@ -97,9 +102,24 @@ const SignIn = ({setMe, setSignedIn, displayStatus}) => {
                     }}
                 >
                     <Button type="primary" htmlType="submit">
-                    Sign In
+                        Sign In
                     </Button>
                 </Form.Item>
+
+                <Form.Item
+                    wrapperCol={{
+                    offset: 8,
+                    span: 16,
+                    }}
+                >
+                    <p>
+                        No account yet?
+                        <Button type="link" onClick={()=>setRegistered(false)}>
+                            Register
+                        </Button>
+                    </p>
+                </Form.Item>
+
             </Form>
         </>
     )
