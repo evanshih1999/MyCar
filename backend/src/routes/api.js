@@ -112,4 +112,11 @@ router.post('/car/control', (req, res) => {
     res.json({ msg: command })
 })
 
+router.post('/door/control', (req, res) => {
+    const door = req.body.door
+    const command = req.body.command
+    console.log(door+' '+command)
+    res.json({ msg: command })
+})
+
 export default router
