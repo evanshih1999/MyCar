@@ -20,8 +20,8 @@ const Car = ({car, setCar}) => {
                 <h1>{car}</h1>
             </Title>
             <div style={{display:"flex"}}>
-                <Screen>
-                    <p style={{marginTop:200}}>video from {car}</p>
+                <Screen style={{height:400}}>
+                    <p style={{marginTop:190}}>video from {car}</p>
                 </Screen>
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", margin:50}}>
                     <div>

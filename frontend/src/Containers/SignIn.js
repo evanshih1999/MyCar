@@ -39,7 +39,7 @@ const SignIn = ({me, setMe, pwd, setPwd, setRemember, setSignedIn, setRegistered
     return (
         <>
             <Title>
-                <h1>MyCar</h1>
+                <h1 style={{margin:20}}>MyCar</h1>
             </Title>
             <Form
                 name="basic"

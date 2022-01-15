@@ -19,8 +19,8 @@ const Door = ({door, setDoor}) => {
                 <h1>{door}</h1>
             </Title>
             <div style={{display:"flex"}}>
-                <Screen>
-                    <p style={{marginTop:200}}>video from {door}</p>
+                <Screen style={{height:400}}>
+                    <p style={{marginTop:190}}>video from {door}</p>
                 </Screen>
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", margin:50}}>
                     <Button type="primary" shape="round" onClick={()=>control('open')} style={{margin:10}}>

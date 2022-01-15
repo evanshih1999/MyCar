@@ -6,7 +6,7 @@ const Title = styled.div`
     justify-content: center;
   
     h1 {
-        margin: 20px;
+        margin: 0px;
         margin-right: 20px;
         font-size: 3em;
     }
