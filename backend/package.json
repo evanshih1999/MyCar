@@ -24,5 +24,6 @@
   },
   "scripts": {
     "server": "nodemon src/server.js --ext js --exec babel-node"
-  }
+  },
+  "type": "module"
 }
