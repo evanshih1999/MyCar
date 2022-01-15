@@ -60,8 +60,8 @@ httpServer.listen(port, () => {
 
 import express from 'express'
 import cors from 'cors'
-import connectMongoDB from './backend/mongo.js'
-import router from './backend/routes/api'
+import connectMongoDB from './backend/src/mongo.js'
+import router from './backend/src/routes/api.js'
 import bodyParser from 'body-parser';
 import { fileURLToPath } from "url";
 import { dirname } from "path";
