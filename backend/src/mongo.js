@@ -10,6 +10,8 @@ const connectMongoDB = () => {
         useUnifiedTopology: true,
     })
     .then((res) => console.log("mongo db connection created"));
+    const db = mongoose.connection
+    return db
 }
 
 export default connectMongoDB;

@@ -2,8 +2,8 @@ import express from 'express'
 import nodemailer from 'nodemailer'
 import dotenv from "dotenv-defaults"
 import bcrypt from "bcrypt"
-import User from '../models/User'
-import Vcode from '../models/Vcode'
+import User from '../models/User.js'
+import Vcode from '../models/Vcode.js'
 
 dotenv.config();
 

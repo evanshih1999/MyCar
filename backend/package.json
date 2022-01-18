@@ -9,6 +9,10 @@
     "express": "^4.17.2",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
+    "numjs": "^0.16.1",
+    "path": "^0.12.7",
+    "socket.py": "^0.3.2",
+    "url": "^0.11.0",
     "uuidv4": "^6.2.12"
   },
   "devDependencies": {
@@ -24,5 +28,6 @@
   },
   "scripts": {
     "server": "nodemon src/server.js --ext js --exec babel-node"
-  }
+  },
+  "type": "module"
 }
