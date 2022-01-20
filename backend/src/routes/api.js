@@ -4,6 +4,9 @@ import dotenv from "dotenv-defaults"
 import bcrypt from "bcrypt"
 import User from '../models/User.js'
 import Vcode from '../models/Vcode.js'
+import {setMqtt, sendMqtt} from '../mqtt.js'
+import Car from '../models/Car.js'
+import Door from '../models/Door.js'
 
 dotenv.config();
 
@@ -105,14 +108,90 @@ router.post('/user/login', async (req, res) => {
     res.status(400).send({ msg: "Username doesn't exist" })
 })
 
-router.post('/car/control', (req, res) => {
+router.post('/car/add', async (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    const carname = req.body.carname
+    const host = req.body.host
+    const port = req.body.port
+    try {
+        const newCar = new Car({ username, password, carname, host, port })
+        await newCar.save()
+        console.log(carname+' added!')
+        res.json({ msg: carname+' added!' })
+    } catch (e) { throw new Error("Car creation error")}
+})
+
+router.post('/door/add', async (req, res) => {
+    const username = req.body.username
+    const doorname = req.body.doorname
+    try {
+        const newDoor = new Door({ username, doorname })
+        await newDoor.save()
+        console.log(doorname+' added!')
+        res.json({ msg: doorname+' added!' })
+    } catch (e) { throw new Error("Door creation error")}
+})
+
+router.post('/car/find', async (req, res) => {
+    const username = req.body.username
+    const cars = await Car.find({username: username})
+    for (let i=0; i<cars.length; i++) {
+        cars[i] = {
+            username: cars[i].username,
+            password: cars[i].password,
+            carname: cars[i].carname,
+            host: cars[i].host,
+            port: cars[i].port
+        }
+    }
+    res.json(cars)
+})
+
+router.post('/door/find', async (req, res) => {
+    const username = req.body.username
+    const doors = await Door.find({username: username})
+    for (let i=0; i<doors.length; i++) {
+        doors[i] = {
+            username: doors[i].username,
+            doorname: doors[i].doorname
+        }
+    }
+    res.json(doors)
+})
+
+router.post('/car/set', async (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    const host = req.body.host
+    const port = req.body.port
+    setMqtt(username, password, host, port)
+    res.json({ msg: 'success' })
+})
+
+router.post('/car/delete', async (req, res) => {
+    const username = req.body.username
+    const carname = req.body.carname
+    await Car.deleteOne({username: username, carname: carname})
+    res.json({ msg: 'success' })
+})
+
+router.post('/door/delete', async (req, res) => {
+    const username = req.body.username
+    const doorname = req.body.doorname
+    await Door.deleteOne({username: username, doorname: doorname})
+    res.json({ msg: 'success' })
+})
+
+router.post('/car/control', async (req, res) => {
     const car = req.body.car
     const command = req.body.command
+    sendMqtt(car, command)
     console.log(car+' '+command)
     res.json({ msg: command })
 })
 
-router.post('/door/control', (req, res) => {
+router.post('/door/control', async (req, res) => {
     const door = req.body.door
     const command = req.body.command
     console.log(door+' '+command)

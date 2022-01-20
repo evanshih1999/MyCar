@@ -29,8 +29,6 @@ function App() {
     const [me, setMe] = useState(savedMe||'')
     const [pwd, setPwd] = useState(savedPwd||'')
     const [remember, setRemember] = useState(false)
-    const [car, setCar] = useState('')
-    const [door, setDoor] = useState('')
     
     const displayStatus = (payload) => {
         if (payload.msg) {
@@ -63,41 +61,29 @@ function App() {
     return (
         <Wrapper>
             {signedIn?
-                car?
-                <Car
-                    car = {car}
-                    setCar = {setCar}
+                <Menu
+                    me = {me}
+                    setSignedIn = {setSignedIn}
                 />:
-                    door?
-                    <Door
-                        door = {door}
-                        setDoor = {setDoor}
-                    />:
-                    <Menu
+                registered?
+                    <SignIn
                         me = {me}
+                        setMe = {setMe}
+                        pwd = {pwd}
+                        setPwd = {setPwd}
+                        setRemember = {setRemember}
                         setSignedIn = {setSignedIn}
-                        setCar = {setCar}
-                        setDoor = {setDoor}
+                        setRegistered = {setRegistered}
+                        displayStatus = {displayStatus}
                     />:
-                    registered?
-                        <SignIn
-                            me = {me}
-                            setMe = {setMe}
-                            pwd = {pwd}
-                            setPwd = {setPwd}
-                            setRemember = {setRemember}
-                            setSignedIn = {setSignedIn}
-                            setRegistered = {setRegistered}
-                            displayStatus = {displayStatus}
-                        />:
-                        <Register
-                            setMe = {setMe}
-                            setPwd = {setPwd}
-                            setRemember = {setRemember}
-                            setSignedIn = {setSignedIn}
-                            setRegistered = {setRegistered}
-                            displayStatus = {displayStatus}
-                        />
+                    <Register
+                        setMe = {setMe}
+                        setPwd = {setPwd}
+                        setRemember = {setRemember}
+                        setSignedIn = {setSignedIn}
+                        setRegistered = {setRegistered}
+                        displayStatus = {displayStatus}
+                    />
             }
         </Wrapper>
     )
