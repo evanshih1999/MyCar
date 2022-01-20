@@ -5,6 +5,8 @@ import {Button} from 'antd'
 import {UpCircleOutlined, DownCircleOutlined, LeftCircleOutlined, RightCircleOutlined} from '@ant-design/icons'
 import axios from "../api"
 import Player from '../Components/Player'
+import ReactHlsPlayer from 'react-hls-player'
+import HLSPlayer from '../Components/HLSPlayer'
 
 const client = new WebSocket('ws://localhost:4000')
 
@@ -39,7 +41,7 @@ const Car = ({car, setCar, displayStatus}) => {
             <div style={{display:"flex"}}>
                 <Screen style={{height:400}}>
                     {/*<p style={{marginTop:190}}>video from {car}</p>*/}
-                    <Player/>
+                    <HLSPlayer src={'http://192.168.10.111:8088/car_stream.m3u8'}/>
                 </Screen>
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", margin:50}}>
                     <div>

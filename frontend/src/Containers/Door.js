@@ -9,6 +9,7 @@ import axios from "../api"
 import Player from '../Components/Player'
 import VideoPlayer from '../Components/VideoPlayer'
 import 'video.js/dist/video-js.min.css'
+import HLSPlayer from '../Components/HLSPlayer'
 
 const client = new WebSocket('ws://localhost:4000')
 
@@ -52,15 +53,7 @@ const Door = ({door, setDoor, displayStatus}) => {
                         url={"rtmp://172.20.10.2:1935/live/test"}
                         autoplay='true'
                     />*/}
-                    {<div style={{marginTop:50}}>
-                        <ReactHlsPlayer
-                            src='http://172.20.10.2:8088/city.m3u8'
-                            autoPlay={false}
-                            controls={true}
-                            width="90%"
-                            height="auto"
-                        />
-                    </div>}
+                    <HLSPlayer src={'http://192.168.10.111:8088/door_stream.m3u8'}/>
                     {/*<video 
                         style={{width:"50vw",height:"50vh",margin:"0 auto"}} 
                         id="my-video" 

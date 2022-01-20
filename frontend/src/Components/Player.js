@@ -7,7 +7,7 @@ const Player = (props) => {
     const [videoNode, setVideoNode] = useState()
     const [player, setPlayer] = useState()
 
-    const url = "http://172.20.10.2:8088/test.m3u8"
+    const url = "http://172.20.10.2:8088/car_stream.m3u8"
     
     useMemo (() => {
         if (videoNode) {
