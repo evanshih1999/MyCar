@@ -8,7 +8,6 @@ import {Button} from 'antd'
 import axios from "../api"
 import Player from '../Components/Player'
 import Image from "../Components/Image"
-import VideoPlayer from '../Components/VideoPlayer'
 
 const Door = ({door, setDoor}) => {
     const [open, setOpen] = useState(false)
@@ -20,15 +19,6 @@ const Door = ({door, setDoor}) => {
             door,
             command
         })
-    }
-
-    const videoJsOptions = {
-        autoplay: true,
-        controls: true,
-        sources: [{
-          src: 'rtmp://58.200.131.2:1935/livetv/cctv1',
-          type: 'rtmp/flv'
-        }]
     }
 
     return (
@@ -48,7 +38,6 @@ const Door = ({door, setDoor}) => {
                         url={"http://112.50.243.8/PLTV/88888888/224/3221225922/1.m3u8"}
                         autoplay='true'
                     />*/}
-                    {/*<VideoPlayer { ...videoJsOptions } />*/}
                     <div style={{marginTop:50}}>
                         <ReactHlsPlayer
                             src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
