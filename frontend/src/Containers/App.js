@@ -30,11 +30,11 @@ function App() {
     const [pwd, setPwd] = useState(savedPwd||'')
     const [remember, setRemember] = useState(false)
     
-    const displayStatus = (payload) => {
+    const displayStatus = (payload, duration) => {
         if (payload.msg) {
             const { type, msg } = payload
             const content = {
-                content: msg, duration: 0.5 }
+                content: msg, duration: duration }
             switch (type) {
                 case 'success':
                     message.success(content)
@@ -64,6 +64,7 @@ function App() {
                 <Menu
                     me = {me}
                     setSignedIn = {setSignedIn}
+                    displayStatus = {displayStatus}
                 />:
                 registered?
                     <SignIn

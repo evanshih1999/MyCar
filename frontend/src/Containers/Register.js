@@ -27,13 +27,13 @@ const Register = ({setMe, setPwd, setRemember, setSignedIn, setRegistered, displ
             displayStatus({
                 type: 'success',
                 msg: msg
-            })
+            }, 0.5)
         } catch (error) {
             const { data: { msg } } = error.response
             displayStatus({
                 type: 'error',
                 msg: msg
-            })
+            }, 0.5)
         }
     };
     
@@ -78,7 +78,7 @@ const Register = ({setMe, setPwd, setRemember, setSignedIn, setRegistered, displ
                                 displayStatus({
                                     type: 'error',
                                     msg: 'Please enter an email.'
-                                })
+                                }, 0.5)
                                 return
                             }
                             const {
@@ -89,7 +89,7 @@ const Register = ({setMe, setPwd, setRemember, setSignedIn, setRegistered, displ
                             displayStatus({
                                 type: 'success',
                                 msg: msg
-                            })
+                            }, 0.5)
                         }}
                     />
                 </Form.Item>

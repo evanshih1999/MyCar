@@ -5,11 +5,12 @@ import connectMongoDB from './mongo.js'
 import router from './routes/api.js'
 import bodyParser from 'body-parser';
 import wssConnect from './wssConnect.js'
+import mqtt from 'mqtt'
 import WebSocket from 'ws'
 
 const app = express()
 const server = http.createServer(app)
-const {wss, sendFile} = wssConnect(server)
+const {wss, sendFile, sendData} = wssConnect(server)
 
 /*const client = new WebSocket('ws://172.20.10.3:8080')
 client.onmessage = (byteString) => {
@@ -18,11 +19,58 @@ client.onmessage = (byteString) => {
   sendFile(buff)
 }*/
 
+const connectUrl = `mqtt://172.20.10.2:1883`
+
+const qclientId = `mqtt_${Math.random().toString(16).slice(3)}`
+const qclient = mqtt.connect(connectUrl, {
+  qclientId,
+  clean: true,
+  connectTimeout: 4000,
+  username: 'QRcode',
+  password: 'QRcode',
+  reconnectPeriod: 1000,
+})
+
+qclient.on('connect', () => {
+  console.log('Connected')
+  qclient.subscribe(['QRcode'], () => {
+    console.log(`Subscribe to topic QRcode`)
+  })
+})
+
+qclient.on('message', (topic, payload) => {
+  console.log('Received Message:', topic, payload.toString())
+  sendData([topic, payload.toString()])
+})
+
+const fclientId = `mqtt_${Math.random().toString(16).slice(3)}`
+const fclient = mqtt.connect(connectUrl, {
+  fclientId,
+  clean: true,
+  connectTimeout: 4000,
+  username: 'Face',
+  password: 'Face',
+  reconnectPeriod: 1000,
+})
+
+fclient.on('connect', () => {
+  console.log('Connected')
+  fclient.subscribe(['Face'], () => {
+    console.log(`Subscribe to topic Face`)
+  })
+})
+
+fclient.on('message', (topic, payload) => {
+  console.log('Received Message:', topic, payload.toString())
+  sendData([topic, payload.toString()])
+})
+
 // connect database
 const db = connectMongoDB()
 
 db.once('open', () => {
   wss.on('connection', (ws) => {
+    console.log('websocket client connected!')
     ws.onmessage = async (byteString) => {
       const { data } = byteString
       const task = JSON.parse(data)

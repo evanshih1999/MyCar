@@ -124,9 +124,12 @@ router.post('/car/add', async (req, res) => {
 
 router.post('/door/add', async (req, res) => {
     const username = req.body.username
+    const password = req.body.password
     const doorname = req.body.doorname
+    const host = req.body.host
+    const port = req.body.port
     try {
-        const newDoor = new Door({ username, doorname })
+        const newDoor = new Door({ username, password, doorname, host, port })
         await newDoor.save()
         console.log(doorname+' added!')
         res.json({ msg: doorname+' added!' })
@@ -154,13 +157,25 @@ router.post('/door/find', async (req, res) => {
     for (let i=0; i<doors.length; i++) {
         doors[i] = {
             username: doors[i].username,
-            doorname: doors[i].doorname
+            password: doors[i].password,
+            doorname: doors[i].doorname,
+            host: doors[i].host,
+            port: doors[i].port
         }
     }
     res.json(doors)
 })
 
 router.post('/car/set', async (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+    const host = req.body.host
+    const port = req.body.port
+    setMqtt(username, password, host, port)
+    res.json({ msg: 'success' })
+})
+
+router.post('/door/set', async (req, res) => {
     const username = req.body.username
     const password = req.body.password
     const host = req.body.host
@@ -194,6 +209,7 @@ router.post('/car/control', async (req, res) => {
 router.post('/door/control', async (req, res) => {
     const door = req.body.door
     const command = req.body.command
+    sendMqtt(door, command)
     console.log(door+' '+command)
     res.json({ msg: command })
 })

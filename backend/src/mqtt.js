@@ -49,6 +49,8 @@ const sendMqtt = (topic, content) => {
               console.error(error)
             }
         })
+        console.log(topic)
+        console.log(content)
     }
 }
 

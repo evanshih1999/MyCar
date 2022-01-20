@@ -7,9 +7,12 @@ import Screen from "../Components/Screen"
 import {Button} from 'antd'
 import axios from "../api"
 import Player from '../Components/Player'
-import Image from "../Components/Image"
+import VideoPlayer from '../Components/VideoPlayer'
+import 'video.js/dist/video-js.min.css'
 
-const Door = ({door, setDoor}) => {
+const client = new WebSocket('ws://localhost:4000')
+
+const Door = ({door, setDoor, displayStatus}) => {
     const [open, setOpen] = useState(false)
     
     const control = async (command) => {
@@ -19,6 +22,17 @@ const Door = ({door, setDoor}) => {
             door,
             command
         })
+    }
+
+    client.onmessage = (byteString) => {
+        const { data } = byteString;
+        const [topic, payload] = JSON.parse(data);    
+        if (topic=='QRcode') {
+            displayStatus({
+                type: 'info',
+                msg: payload
+            }, 3)
+        }
     }
 
     return (
@@ -32,21 +46,46 @@ const Door = ({door, setDoor}) => {
                     {/*<Image/>*/}
                     {/*<Player/>*/}
                     {/*<div style={{width:525, height:350, marginTop:25, marginLeft:40}}>
-                        <ReactPlayer url='https://www.youtube.com/watch?v=RYsSx-VK2ks' width = '525px' height = '350px' />
+                        <ReactPlayer url='rtmp://172.20.10.2:1935/live/test' width = '525px' height = '350px' />
                     </div>*/}
                     {/*<ReactHLS 
-                        url={"http://112.50.243.8/PLTV/88888888/224/3221225922/1.m3u8"}
+                        url={"rtmp://172.20.10.2:1935/live/test"}
                         autoplay='true'
                     />*/}
-                    <div style={{marginTop:50}}>
+                    {<div style={{marginTop:50}}>
                         <ReactHlsPlayer
-                            src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+                            src='http://172.20.10.2:8088/city.m3u8'
                             autoPlay={false}
                             controls={true}
                             width="90%"
                             height="auto"
                         />
-                    </div>
+                    </div>}
+                    {/*<video 
+                        style={{width:"50vw",height:"50vh",margin:"0 auto"}} 
+                        id="my-video" 
+                        className="video-js vjs-default-skin"
+                    >
+                    </video>*/}
+                    {/*<VLCPlayer
+                        style={[styles.video]}
+                        videoAspectRatio="16:9"
+                        source={{ uri: "https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4"}}
+                    />*/}
+                    {/*<VlcPlayer
+                        ref={this.vlcplayer}
+                        style={{
+                            width: 300,
+                            height: 200,
+                        }}
+                        paused={false}
+                        autoplay={true}
+                        source={{
+                            uri: 'file:///storage/emulated/0/Download/example.mp4',
+                            autoplay: true,
+                            initOptions: ['--codec=avcodec'],
+                        }}  />*/}
+                    {/*<VideoPlayer src={'rtmp://172.20.10.2:1935/live/city'} ></VideoPlayer>*/}
                 </Screen>
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", margin:50}}>
                     {open?

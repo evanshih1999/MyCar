@@ -8,7 +8,7 @@ import Car from '../Containers/Car'
 import Door from '../Containers/Door'
 import { DeleteOutlined } from '@ant-design/icons'
 
-const Menu = ({me, setSignedIn}) => {
+const Menu = ({me, setSignedIn, displayStatus}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [doorVisible, setDoorVisible] = useState(false)
     const [car, setCar] = useState('')
@@ -50,13 +50,13 @@ const Menu = ({me, setSignedIn}) => {
                 <Car
                     car = {car}
                     setCar = {setCar}
-                    host = {host}
-                    port = {port}
+                    displayStatus = {displayStatus}
                 />:
                     door?
                     <Door
                         door = {door}
                         setDoor = {setDoor}
+                        displayStatus = {displayStatus}
                     />:
                         <>
                         <Title>
@@ -112,6 +112,16 @@ const Menu = ({me, setSignedIn}) => {
                                             <>
                                                 <Button type='link' style={{fontSize: 20}} onClick={async () => {
                                                     setDoor(door.doorname)
+                                                    setHost(door.host)
+                                                    setPort(door.port)
+                                                    const {
+                                                        data: {msg}
+                                                    } = await axios.post('/api/door/set', {
+                                                        username: door.doorname,
+                                                        password: door.password,
+                                                        host: door.host,
+                                                        port: door.port
+                                                    })
                                                 }}>
                                                     {door.doorname}
                                                 </Button>
@@ -166,12 +176,15 @@ const Menu = ({me, setSignedIn}) => {
                         />
                         <DoorModal
                                 visible = {doorVisible}
-                                onCreate = {async ({doorname}) => {
+                                onCreate = {async ({doorname, password, host, port}) => {
                                     const {
                                         data: { msg },
                                     } = await axios.post('/api/door/add', {
                                         username: me,
-                                        doorname
+                                        doorname,
+                                        password,
+                                        host,
+                                        port
                                     })
                                     setDoorVisible(false);
                                 }}

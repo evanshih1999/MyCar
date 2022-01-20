@@ -6,7 +6,9 @@ import {UpCircleOutlined, DownCircleOutlined, LeftCircleOutlined, RightCircleOut
 import axios from "../api"
 import Player from '../Components/Player'
 
-const Car = ({car, setCar, host, port}) => {
+const client = new WebSocket('ws://localhost:4000')
+
+const Car = ({car, setCar, displayStatus}) => {
     const [open, setOpen] = useState(false)
     
     const control = async (command) => {
@@ -18,6 +20,17 @@ const Car = ({car, setCar, host, port}) => {
         })
     }
     
+    client.onmessage = (byteString) => {
+        const { data } = byteString;
+        const [topic, payload] = JSON.parse(data);
+        if (topic=='Face') {
+            displayStatus({
+                type: 'info',
+                msg: payload
+            }, 3)
+        }
+    }
+
     return (
         <>
             <Title>

@@ -22,13 +22,13 @@ const SignIn = ({me, setMe, pwd, setPwd, setRemember, setSignedIn, setRegistered
             displayStatus({
                 type: 'success',
                 msg: msg
-            })
+            }, 0.5)
         } catch (error) {
             const { data: { msg } } = error.response
             displayStatus({
                 type: 'error',
                 msg: msg
-            })
+            }, 0.5)
         }
     };
     

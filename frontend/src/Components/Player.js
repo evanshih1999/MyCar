@@ -7,7 +7,7 @@ const Player = (props) => {
     const [videoNode, setVideoNode] = useState()
     const [player, setPlayer] = useState()
 
-    const url = "rtmp://58.200.131.2:1935/livetv/cctv1"
+    const url = "http://172.20.10.2:8088/test.m3u8"
     
     useMemo (() => {
         if (videoNode) {

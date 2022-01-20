@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 const wssConnect = (server) => {
     const wss = new WebSocket.Server({ server })
     
-    const sendFile = () => {
+    const sendFile = (buf) => {
         wss.clients.forEach((client) => {
             fs.readFile(__dirname+'/assets/sample.jpg', function(err, buf){
                 client.send(JSON.stringify({ image: true, buffer: buf.toString('base64') }))
@@ -18,7 +18,17 @@ const wssConnect = (server) => {
         });
     }
 
-    return {wss, sendFile}
+    const sendData = (data) => {
+        wss.clients.forEach((client) => {
+            /*fs.readFile(__dirname+'/assets/sample.jpg', function(err, buf){
+                client.send(JSON.stringify({ image: true, buffer: buf.toString('base64') }))
+                console.log('file sent')
+            })*/
+            client.send(JSON.stringify(data))
+        });
+    }
+
+    return {wss, sendFile, sendData}
 }
 
 
